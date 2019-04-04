@@ -2,6 +2,7 @@ import sys
 from flask import Flask, request
 from pprint import pprint
 from pymessenger import Bot
+from utils import wit_response
 
 
 app = Flask(__name__)
@@ -25,7 +26,7 @@ def verify():
 @app.route('/', methods=['POST'])
 def webhook():
     data = request.get_json()
-    log(data)
+    sys.log(data)
 
     # Necessary Code that extract json data facebook send
     if data['object'] == 'page':
@@ -43,18 +44,26 @@ def webhook():
                     else:
                         messaging_text = 'no text'
 
-                    # Echo Bot
-                    response = messaging_text
-                    bot.send_text_message(sender_id, response)
+                        # replace Echo Bot to wit ai
+                        response = None
 
-    return "ok", 200
+                        entity, value = wit_response(messaging_text)
+                        if entity == 'newstype':
+                            response = "Ok, I will send you the {} news".format(str(value))
+                        elif entity == 'location':
+                            response = "Ok, so you live in {0}. Here are top headlines from {0}".format(str(value))
 
+                        if response == None:
+                            response = "Sorry, I didnt understand"
 
-def log(message):
-    # previously it was print now I just Use Petty Print
-    pprint(message)
-    sys.stdout.flush()
+                        bot.send_text_message(sender_id, response)
 
+                    return "ok", 200
 
-if __name__ == "__main__":
-    app.run(port=80, use_reloader=True)
+                def log(message):
+                    # previously it was print now I just Use Petty Print
+                    pprint(message)
+                    sys.stdout.flush()
+
+                if __name__ == "__main__":
+                    app.run(port=80, use_reloader=True)

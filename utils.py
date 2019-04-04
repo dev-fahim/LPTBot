@@ -3,10 +3,22 @@ from gnewsclient import gnewsclient
 
 access_token = "VUUDTV5DMUZQGVA66ANKETHB7BCSQ26U"
 
-client = Wit(access_token = access_token)
+client = Wit(access_token=access_token)
 
-message_text = "I live in canada"
 
-resp = client.message(message_text)
+def wit_response(message_text):
+    resp = client.message(message_text)
 
-print(resp)
+    entity = None
+    value = None
+
+    try:
+        entity = list(resp['entities'])[0]
+        value = resp['entities'][entity][0]['value']
+    except:
+        pass
+
+    return (entity, value)
+
+
+print(wit_response("I want sports news"))
