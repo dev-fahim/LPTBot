@@ -7,7 +7,7 @@ from utils import wit_response, get_news_elements
 
 app = Flask(__name__)
 
-FB_ACCESS_TOKEN = "EAACvvGBVPhEBAPZBojGMr79SBWompmH8ofKabKBmbVWjjKczuyrdcomEpSBdQ9YL8GLEHCuzr5bDMHn3HOOpmLFvP4PKbSCgw3CQdfoR2iznyp8CXRO9VGz7ydObh3WsU1NNisQOafGtpTmejqDVZA1HvD2oHcAMlGjO92UQZDZD"
+FB_ACCESS_TOKEN = "EAAfk8UkWEJgBAODAv9XAO8tgpInwHaaOEk1P9E9DDYV4ASAQA8PZCetnzlZCwErGP8Fd0L5eYIEYs6j83KoZAZB8jj0mZC0EJGJt9gqOaqew9frevrnb4Klo5oOikrfH9dmayryyio1ET0cAKvN9fsmfBHwqXBczlsr18l2YbcAZDZD"
 bot = Bot(FB_ACCESS_TOKEN)
 
 VERIFICATION_TOKEN = "hello"
