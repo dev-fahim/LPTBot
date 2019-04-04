@@ -1,8 +1,7 @@
 import sys
-from flask import Flask, request, render_template
+from flask import Flask, request
 from pprint import pprint
 from pymessenger import Bot
-from utils import wit_response, get_news_elements
 
 
 app = Flask(__name__)
@@ -20,7 +19,7 @@ def verify():
         if not request.args.get("hub.verify_token") == "hello":
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
-    return "App Create By A Fahim To Know more Please Contact that Fahim", 200
+    return "Hello world", 200
 
 
 @app.route('/', methods=['POST'])
@@ -44,10 +43,9 @@ def webhook():
                     else:
                         messaging_text = 'no text'
 
-                    # Code for Messenger Template
-                    categories = wit_response(messaging_text)
-                    elements = get_news_elements(categories)
-                    bot.send_generic_message(sender_id, elements)
+                    # Echo Bot
+                    response = messaging_text
+                    bot.send_text_message(sender_id, response)
 
     return "ok", 200
 
@@ -57,11 +55,6 @@ def log(message):
     pprint(message)
     sys.stdout.flush()
 
-# for facebook apps Privacy-Policy necessary
-@app.route('/Privacy-Policy')
-def PrivacyPolicy():
-    return render_template("Privacy-Policy.html")
 
-# For heroku deployment Remove port
 if __name__ == "__main__":
-    app.run(use_reloader=True)
+    app.run(port=80, use_reloader=True)
